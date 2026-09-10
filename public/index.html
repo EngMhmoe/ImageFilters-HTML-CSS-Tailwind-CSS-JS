@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- ==========================================================
+         Meta
+         ========================================================== -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- ==========================================================
+         Title
+         ========================================================== -->
+
+    <title>Image Filters</title>
+
+
+
+    <!-- ==========================================================
+         Custom CSS
+         ========================================================== -->
+    <link rel="stylesheet" href="style.css">
+
+
+    <!-- ==========================================================
+         Tailwind CSS
+         ========================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+
+</head>
+
+
+<body>
+
+    <!-- ==========================================================
+         Main Container
+         ========================================================== -->
+
+    <main class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+
+        <div
+            class="w-full max-w-7xl bg-[var(--container-bg)] border border-[var(--border-color)] rounded-3xl shadow-2xl overflow-hidden">
+
+            <!-- ==================================================
+                 Header
+                 ================================================== -->
+
+            <header
+                class="px-6 py-5 sm:px-8 border-b border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-4">
+
+                <div class="text-center sm:text-left">
+
+                    <p class="text-sm uppercase tracking-[0.3em] text-[var(--primary-color)] font-semibold">
+                        Image Editor
+                    </p>
+
+                    <h1 class="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mt-1">
+                        Image Filters
+                    </h1>
+
+                </div>
+
+
+                <div class="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+
+                    <span class="w-2.5 h-2.5 rounded-full bg-[var(--success-color)]"></span>
+
+                    <span>
+                        Ready to edit
+                    </span>
+
+                </div>
+
+            </header>
+
+
+            <!-- ==================================================
+                 Content
+                 ================================================== -->
+
+            <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-0">
+
+
+                <!-- ==================================================
+                     Image Section
+                     ================================================== -->
+
+                <section class="p-5 sm:p-8 border-b lg:border-b-0 lg:border-r border-[var(--border-color)]">
+
+                    <div
+                        class="image-section min-h-[400px] lg:min-h-[620px] flex flex-col items-center justify-center gap-6">
+
+
+                        <!-- ==================================================
+                             Image Preview
+                             ================================================== -->
+
+                        <div id="box-img"
+                            class="w-full flex items-center justify-center min-h-[300px] sm:min-h-[400px]">
+
+                            <div class="image-frame">
+                                <img src="imge.webp" class="flex justify-center items-center" id="img"
+                                    alt="Uploaded image">
+
+                                <canvas id="canvas"></canvas>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ==================================================
+                             Upload Area
+                             ================================================== -->
+
+                        <div class="w-full max-w-md">
+
+                            <label for="ubLoad" class="upload-button text-white">
+
+                                <span class="text-lg">
+                                    ↑
+                                </span>
+
+                                <span>
+                                    Upload Image
+                                </span>
+
+                            </label>
+
+                            <input type="file" id="ubLoad" accept="image/*" class="hidden">
+
+                            <p class="text-center text-xs text-[var(--text-muted)] mt-3">
+                                Select an image from your device to start editing
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ==================================================
+                     Filters Section
+                     ================================================== -->
+
+                <section class="p-5 sm:p-8">
+
+                    <!-- ==================================================
+                         Filters Header
+                         ================================================== -->
+
+                    <div class="mb-6">
+
+                        <p class="text-xs uppercase tracking-[0.25em] text-[var(--primary-color)] font-semibold">
+                            Adjustments
+                        </p>
+
+                        <div class="flex items-center justify-between gap-3 mt-1">
+
+                            <h2 class="text-xl sm:text-2xl font-bold text-[var(--text-primary)]">
+                                Image Filters
+                            </h2>
+
+                            <span id="filterStatus"
+                                class="text-xs px-3 py-1 rounded-full bg-[var(--surface-bg)] text-[var(--text-secondary)] border border-[var(--border-color)]">
+                                Original
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         Filters
+                         ================================================== -->
+
+                    <div class="space-y-5">
+
+
+                        <!-- Saturate -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="saturate">
+                                    Saturate
+                                </label>
+
+                                <span id="saturateValue">
+                                    100%
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="saturate" min="0" max="200" value="100">
+
+                        </div>
+
+
+                        <!-- Contrast -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="contrast">
+                                    Contrast
+                                </label>
+
+                                <span id="contrastValue">
+                                    100%
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="contrast" min="0" max="200" value="100">
+
+                        </div>
+
+
+                        <!-- Brightness -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="brightness">
+                                    Brightness
+                                </label>
+
+                                <span id="brightnessValue">
+                                    100%
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="brightness" min="0" max="200" value="100">
+
+                        </div>
+
+
+                        <!-- Sepia -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="sepia">
+                                    Sepia
+                                </label>
+
+                                <span id="sepiaValue">
+                                    0%
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="sepia" min="0" max="100" value="0">
+
+                        </div>
+
+
+                        <!-- Grayscale -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="grayscale">
+                                    Grayscale
+                                </label>
+
+                                <span id="grayscaleValue">
+                                    0%
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="grayscale" min="0" max="1" step="0.1" value="0">
+
+                        </div>
+
+
+                        <!-- Blur -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="blur">
+                                    Blur
+                                </label>
+
+                                <span id="blurValue">
+                                    0px
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="blur" min="0" max="10" step="0.1" value="0">
+
+                        </div>
+
+
+                        <!-- Hue Rotate -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="hue-rotate">
+                                    Hue Rotate
+                                </label>
+
+                                <span id="hueRotateValue">
+                                    0°
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="hue-rotate" min="0" max="360" value="0">
+
+                        </div>
+
+
+                        <!-- Invert -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="invert">
+                                    Invert
+                                </label>
+
+                                <span id="invertValue">
+                                    0%
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="invert" min="0" max="100" value="0">
+
+                        </div>
+
+
+                        <!-- Opacity -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="opacity">
+                                    Opacity
+                                </label>
+
+                                <span id="opacityValue">
+                                    100%
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="opacity" min="0" max="100" value="100">
+
+                        </div>
+
+
+                        <!-- Drop Shadow -->
+
+                        <div class="filter-item">
+
+                            <div class="filter-header">
+
+                                <label for="drop-shadow">
+                                    Drop Shadow
+                                </label>
+
+                                <span id="dropShadowValue">
+                                    0px
+                                </span>
+
+                            </div>
+
+                            <input type="range" id="drop-shadow" min="0" max="20" value="0">
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==================================================
+                         Actions
+                         ================================================== -->
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-8 pt-6 border-t border-[var(--border-color)]">
+
+                        <a id="download" download="filtered-image.png" class="action-button download-button">
+
+                            <span>
+                                ↓
+                            </span>
+
+                            <span>
+                                Download
+                            </span>
+
+                        </a>
+
+
+                        <button type="button" id="rest" class="action-button reset-button">
+
+                            <span>
+                                ↻
+                            </span>
+
+                            <span>
+                                Reset
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- ==================================================
+                 Footer
+                 ================================================== -->
+
+            <footer class="px-6 py-4 border-t border-[var(--border-color)] text-center">
+
+                <p class="text-xs text-[var(--text-muted)]">
+                    Edit your images easily with real-time filters
+                </p>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+
+    <!-- ==========================================================
+         JavaScript
+         ========================================================== -->
+
+    <script src="logic.js"></script>
+
+</body>
+
+</html>
