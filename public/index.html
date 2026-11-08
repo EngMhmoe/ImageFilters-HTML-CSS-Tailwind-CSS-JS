@@ -9,6 +9,22 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <!-- ==========================================================
+         SEO
+         ========================================================== -->
+
+    <meta name="description"
+        content="APP Image Filters - A powerful image editing application that allows you to apply professional filters and customize your images easily.">
+
+    <meta name="keywords"
+        content="Image Filters, Image Editor, Photo Editor, Image Effects, CSS Filters, JavaScript Image Editor">
+
+    <meta name="author" content="Mohamed Alwani">
+
+    <meta name="robots" content="index, follow">
 
 
     <!-- ==========================================================
@@ -18,11 +34,38 @@
     <title>APP Image Filters</title>
 
 
+    <!-- ==========================================================
+         Theme & Browser
+         ========================================================== -->
+
+    <meta name="theme-color" content="#0f172a">
+
+    <meta name="color-scheme" content="dark light">
+
 
     <!-- ==========================================================
-         Custom CSS
+         Favicon
          ========================================================== -->
-    <link rel="stylesheet" href="style.css">
+
+    <link rel="icon" href="logo_APP Image Filters.png">
+
+
+    <!-- ==========================================================
+         Google Fonts
+         ========================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+    <!-- ==========================================================
+         Icons
+         ========================================================== -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 
     <!-- ==========================================================
@@ -32,81 +75,90 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
 
+    <!-- ==========================================================
+         Custom CSS
+         ========================================================== -->
+
+    <link rel="stylesheet" href="style.css">
+
+
+
 
 </head>
 
 
+
 <body>
 
-    <!-- ==========================================================
-         Main Container
-         ========================================================== -->
+    <main class="min-h-screen px-4 py-8 sm:px-6 lg:px-8">
 
-    <main class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+        <div class="page-wrapper max-w-7xl mx-auto">
 
-        <div
-            class="w-full max-w-7xl bg-[var(--container-bg)] border border-[var(--border-color)] rounded-3xl shadow-2xl overflow-hidden">
+            <header class="page-header flex flex-col sm:flex-row items-center justify-between gap-5 mb-7">
 
-            <!-- ==================================================
-                 Header
-                 ================================================== -->
+                <div class="text-center sm:text-left ml-10">
 
-            <header
-                class="px-6 py-5 sm:px-8 border-b border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-4">
-
-                <div class="text-center sm:text-left">
-
-                    <p class="text-sm uppercase tracking-[0.3em] text-[var(--primary-color)] font-semibold">
+                    <span class="brand-badge inline-flex items-center px-5 py-2 rounded-full font-semibold mb-2">
                         Image Editor
-                    </p>
+                    </span>
 
-                    <h1 class="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mt-1">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white flex items-center gap-3">
                         Image Filters
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
                     </h1>
 
                 </div>
 
+                <!--  -->
 
-                <div class="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+                <div class="ready-status flex items-center gap-3 px-5 py-3 rounded-full">
 
-                    <span class="w-2.5 h-2.5 rounded-full bg-[var(--success-color)]"></span>
+                    <span class="status-dot"></span>
 
-                    <span>
-                        Ready to edit
-                    </span>
+                    <span>Ready to edit</span>
 
                 </div>
 
             </header>
 
 
-            <!-- ==================================================
-                 Content
-                 ================================================== -->
-
-            <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-0">
 
 
-                <!-- ==================================================
-                     Image Section
-                     ================================================== -->
-
-                <section class="p-5 sm:p-8 border-b lg:border-b-0 lg:border-r border-[var(--border-color)]">
-
-                    <div
-                        class="image-section min-h-[400px] lg:min-h-[620px] flex flex-col items-center justify-center gap-6">
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 
 
-                        <!-- ==================================================
-                             Image Preview
-                             ================================================== -->
 
-                        <div id="box-img"
-                            class="w-full flex items-center justify-center min-h-[300px] sm:min-h-[400px]">
 
-                            <div class="image-frame">
-                                <img src="imge.webp" class="flex justify-center items-center" id="img"
-                                    alt="Uploaded image">
+            <div class="editor-container grid grid-cols-1 lg:grid-cols-[1.15fr_1fr]">
+
+                <section class="image-section p-5 sm:p-7 lg:p-8">
+
+                    <div class="image-section-content flex flex-col items-center gap-6">
+
+                        <div id="box-img" class="w-full">
+
+                            <div class="image-frame w-full flex items-center justify-center">
+
+                                <div id="emptyImage" class="empty-image">
+
+                                    <div class="empty-image-icon">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    </div>
+
+                                    <h3>Upload Your Image</h3>
+
+                                    <p>
+                                        Choose an image from your device to start editing
+                                    </p>
+
+                                    <span>PNG, JPG, WEBP</span>
+
+                                </div>
+
+                                <img id="img" alt="Uploaded image">
 
                                 <canvas id="canvas"></canvas>
 
@@ -115,27 +167,19 @@
                         </div>
 
 
-                        <!-- ==================================================
-                             Upload Area
-                             ================================================== -->
-
                         <div class="w-full max-w-md">
 
-                            <label for="ubLoad" class="upload-button text-white">
+                            <label for="ubLoad" class="upload-button">
 
-                                <span class="text-lg">
-                                    ↑
-                                </span>
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
 
-                                <span>
-                                    Upload Image
-                                </span>
+                                <span>Upload Image</span>
 
                             </label>
 
                             <input type="file" id="ubLoad" accept="image/*" class="hidden">
 
-                            <p class="text-center text-xs text-[var(--text-muted)] mt-3">
+                            <p class="text-center text-sm mt-3">
                                 Select an image from your device to start editing
                             </p>
 
@@ -145,286 +189,209 @@
 
                 </section>
 
+                <!--  -->
 
-                <!-- ==================================================
-                     Filters Section
-                     ================================================== -->
+                <section class="filters-section p-5 sm:p-7 lg:p-8">
 
-                <section class="p-5 sm:p-8">
+                    <div class="filters-heading mb-7">
 
-                    <!-- ==================================================
-                         Filters Header
-                         ================================================== -->
+                        <div class="flex items-center gap-4">
 
-                    <div class="mb-6">
+                            <i class="fa-solid fa-sliders"></i>
 
-                        <p class="text-xs uppercase tracking-[0.25em] text-[var(--primary-color)] font-semibold">
-                            Adjustments
-                        </p>
+                            <div>
 
-                        <div class="flex items-center justify-between gap-3 mt-1">
+                                <p class="text-sm font-bold">
+                                    Adjustments
+                                </p>
 
-                            <h2 class="text-xl sm:text-2xl font-bold text-[var(--text-primary)]">
-                                Image Filters
-                            </h2>
+                                <h2 class="text-2xl sm:text-3xl font-bold text-white">
+                                    Image Filters
+                                </h2>
 
-                            <span id="filterStatus"
-                                class="text-xs px-3 py-1 rounded-full bg-[var(--surface-bg)] text-[var(--text-secondary)] border border-[var(--border-color)]">
-                                Original
-                            </span>
+                            </div>
 
                         </div>
+
+                        <span id="filterStatus" class="filter-status">
+                            Original
+                        </span>
 
                     </div>
 
 
-                    <!-- ==================================================
-                         Filters
-                         ================================================== -->
+                    <div class="filters-list">
 
-                    <div class="space-y-5">
-
-
-                        <!-- Saturate -->
 
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-droplet filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="saturate">
-                                    Saturate
-                                </label>
-
-                                <span id="saturateValue">
-                                    100%
-                                </span>
-
+                                <label for="saturate">Saturate</label>
                             </div>
 
                             <input type="range" id="saturate" min="0" max="200" value="100">
 
+                            <span id="saturateValue" class="filter-value">100%</span>
+
                         </div>
 
 
-                        <!-- Contrast -->
-
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-sun filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="contrast">
-                                    Contrast
-                                </label>
-
-                                <span id="contrastValue">
-                                    100%
-                                </span>
-
+                                <label for="contrast">Contrast</label>
                             </div>
 
                             <input type="range" id="contrast" min="0" max="200" value="100">
 
+                            <span id="contrastValue" class="filter-value">100%</span>
+
                         </div>
 
 
-                        <!-- Brightness -->
-
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-circle-half-stroke filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="brightness">
-                                    Brightness
-                                </label>
-
-                                <span id="brightnessValue">
-                                    100%
-                                </span>
-
+                                <label for="brightness">Brightness</label>
                             </div>
 
                             <input type="range" id="brightness" min="0" max="200" value="100">
 
+                            <span id="brightnessValue" class="filter-value">100%</span>
+
                         </div>
 
 
-                        <!-- Sepia -->
-
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-palette filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="sepia">
-                                    Sepia
-                                </label>
-
-                                <span id="sepiaValue">
-                                    0%
-                                </span>
-
+                                <label for="sepia">Sepia</label>
                             </div>
 
                             <input type="range" id="sepia" min="0" max="100" value="0">
 
+                            <span id="sepiaValue" class="filter-value">0%</span>
+
                         </div>
 
 
-                        <!-- Grayscale -->
-
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-circle-half-stroke filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="grayscale">
-                                    Grayscale
-                                </label>
-
-                                <span id="grayscaleValue">
-                                    0%
-                                </span>
-
+                                <label for="grayscale">Grayscale</label>
                             </div>
 
                             <input type="range" id="grayscale" min="0" max="1" step="0.1" value="0">
 
+                            <span id="grayscaleValue" class="filter-value">0%</span>
+
                         </div>
 
 
-                        <!-- Blur -->
-
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-droplet filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="blur">
-                                    Blur
-                                </label>
-
-                                <span id="blurValue">
-                                    0px
-                                </span>
-
+                                <label for="blur">Blur</label>
                             </div>
 
                             <input type="range" id="blur" min="0" max="10" step="0.1" value="0">
 
+                            <span id="blurValue" class="filter-value">0px</span>
+
                         </div>
 
 
-                        <!-- Hue Rotate -->
-
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-circle-nodes filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="hue-rotate">
-                                    Hue Rotate
-                                </label>
-
-                                <span id="hueRotateValue">
-                                    0°
-                                </span>
-
+                                <label for="hue-rotate">Hue Rotate</label>
                             </div>
 
                             <input type="range" id="hue-rotate" min="0" max="360" value="0">
 
+                            <span id="hueRotateValue" class="filter-value">0°</span>
+
                         </div>
 
 
-                        <!-- Invert -->
-
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-eraser filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="invert">
-                                    Invert
-                                </label>
-
-                                <span id="invertValue">
-                                    0%
-                                </span>
-
+                                <label for="invert">Invert</label>
                             </div>
 
                             <input type="range" id="invert" min="0" max="100" value="0">
 
+                            <span id="invertValue" class="filter-value">0%</span>
+
                         </div>
 
 
-                        <!-- Opacity -->
-
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-border-all filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="opacity">
-                                    Opacity
-                                </label>
-
-                                <span id="opacityValue">
-                                    100%
-                                </span>
-
+                                <label for="opacity">Opacity</label>
                             </div>
 
                             <input type="range" id="opacity" min="0" max="100" value="100">
 
+                            <span id="opacityValue" class="filter-value">100%</span>
+
                         </div>
 
 
-                        <!-- Drop Shadow -->
-
                         <div class="filter-item">
 
+                            <i class="fa-solid fa-clone filter-icon"></i>
+
                             <div class="filter-header">
-
-                                <label for="drop-shadow">
-                                    Drop Shadow
-                                </label>
-
-                                <span id="dropShadowValue">
-                                    0px
-                                </span>
-
+                                <label for="drop-shadow">Drop Shadow</label>
                             </div>
 
                             <input type="range" id="drop-shadow" min="0" max="20" value="0">
 
+                            <span id="dropShadowValue" class="filter-value">0px</span>
+
                         </div>
+
 
                     </div>
 
 
-                    <!-- ==================================================
-                         Actions
-                         ================================================== -->
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-8 pt-6 border-t border-[var(--border-color)]">
+                    <div class="actions-container grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 pt-6">
 
                         <a id="download" download="filtered-image.png" class="action-button download-button">
 
-                            <span>
-                                ↓
-                            </span>
+                            <i class="fa-solid fa-download"></i>
 
-                            <span>
-                                Download
-                            </span>
+                            <span>Download</span>
 
                         </a>
 
 
                         <button type="button" id="rest" class="action-button reset-button">
 
-                            <span>
-                                ↻
-                            </span>
+                            <i class="fa-solid fa-rotate-right"></i>
 
-                            <span>
-                                Reset
-                            </span>
+                            <span>Reset</span>
 
                         </button>
 
@@ -435,15 +402,26 @@
             </div>
 
 
-            <!-- ==================================================
-                 Footer
-                 ================================================== -->
 
-            <footer class="px-6 py-4 border-t border-[var(--border-color)] text-center">
 
-                <p class="text-xs text-[var(--text-muted)]">
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+
+
+            <footer class="page-footer flex items-center justify-center gap-5 mt-9">
+
+                <span class="footer-line"></span>
+
+                <p>
                     Edit your images easily with real-time filters
+                    <i class="fa-solid fa-heart"></i>
                 </p>
+
+                <span class="footer-line"></span>
 
             </footer>
 
@@ -452,11 +430,20 @@
     </main>
 
 
-    <!-- ==========================================================
-         JavaScript
-         ========================================================== -->
 
-    <script src="logic.js"></script>
+
+
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+
+
+    <script src="main.js"></script>
 
 </body>
 
