@@ -34,10 +34,19 @@ let download = document.getElementById("download");
 let reset = document.getElementById("rest");
 
 
+
 // Canvas
 
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext("2d");
+
+let originalCanvas = document.createElement("canvas");
+let originalContext = originalCanvas.getContext("2d");
+
+let tempCanvas = document.createElement("canvas");
+let tempContext = tempCanvas.getContext("2d");
+
+
 
 
 // Status
@@ -117,43 +126,87 @@ window.onload = function () {
 // Image Loaded
 // ==========================================================
 
-img.onload = function () {
+// img.onload = function () {
 
-    // Set Canvas size equal to image size
+//     // Set Canvas size equal to image size
+
+//     canvas.width = img.naturalWidth;
+//     canvas.height = img.naturalHeight;
+
+
+//     // Draw original image
+
+//     context.filter = "none";
+
+//     context.drawImage(
+//         img,
+//         0,
+//         0,
+//         canvas.width,
+//         canvas.height
+//     );
+
+
+//     // Hide original image
+
+//     img.style.display = "none";
+
+
+//     // Hide empty image message
+
+//     emptyImage.style.display = "none";
+
+
+//     // Show Canvas
+
+//     canvas.style.display = "block";
+
+// };
+
+img.onload = function () {
 
     canvas.width = img.naturalWidth;
     canvas.height = img.naturalHeight;
 
+    originalCanvas.width = img.naturalWidth;
+    originalCanvas.height = img.naturalHeight;
 
-    // Draw original image
+    tempCanvas.width = img.naturalWidth; 
+    tempCanvas.height = img.naturalHeight;
 
-    context.filter = "none";
+    originalContext.clearRect(
+        0,
+        0,
+        originalCanvas.width,
+        originalCanvas.height
+    );
 
-    context.drawImage(
+    originalContext.drawImage(
         img,
+        0,
+        0,
+        originalCanvas.width,
+        originalCanvas.height
+    );
+
+    context.clearRect(
         0,
         0,
         canvas.width,
         canvas.height
     );
 
-
-    // Hide original image
+    context.drawImage(
+        originalCanvas,
+        0,
+        0
+    );
 
     img.style.display = "none";
-
-
-    // Hide empty image message
-
     emptyImage.style.display = "none";
-
-
-    // Show Canvas
-
     canvas.style.display = "block";
 
 };
-
 
 
 
@@ -241,6 +294,23 @@ uploadInput.onchange = function () {
 // ==========================================================
 // Filters
 // ==========================================================
+let filterFrame = null;
+
+function scheduleApplyFilters() {
+
+    if (filterFrame !== null) {
+        return;
+    }
+
+    filterFrame = requestAnimationFrame(function () {
+
+        applyFilters();
+
+        filterFrame = null;
+
+    });
+
+}
 
 let filters = [
     saturate,
@@ -260,9 +330,9 @@ filters.forEach(function (filter) {
 
     filter.addEventListener("input", function () {
 
-        // Apply filters
+        // schedule Apply Filters
 
-        applyFilters();
+        scheduleApplyFilters();
 
 
         // Update values
@@ -296,24 +366,46 @@ filters.forEach(function (filter) {
 // Apply Filters
 // ==========================================================
 
+// function applyFilters() {
+
+//     // Set Canvas filters
+
+//     context.filter =
+//         "saturate(" + saturate.value + "%) " +
+//         "contrast(" + contrast.value + "%) " +
+//         "brightness(" + brightness.value + "%) " +
+//         "sepia(" + sepia.value + "%) " +
+//         "grayscale(" + grayscale.value + ") " +
+//         "blur(" + blur.value + "px) " +
+//         "hue-rotate(" + hueRotate.value + "deg) " +
+//         "invert(" + invert.value + "%) " +
+//         "opacity(" + opacity.value + "%) " +
+//         "drop-shadow(0 0 " + dropShadow.value + "px rgba(0, 0, 0, 0.8))";
+
+
+//     // Clear Canvas
+
+//     context.clearRect(
+//         0,
+//         0,
+//         canvas.width,
+//         canvas.height
+//     );
+
+
+//     // Draw image with filters
+
+//     context.drawImage(
+//         img,
+//         0,
+//         0,
+//         canvas.width,
+//         canvas.height
+//     );
+
+// }
+
 function applyFilters() {
-
-    // Set Canvas filters
-
-    context.filter =
-        "saturate(" + saturate.value + "%) " +
-        "contrast(" + contrast.value + "%) " +
-        "brightness(" + brightness.value + "%) " +
-        "sepia(" + sepia.value + "%) " +
-        "grayscale(" + grayscale.value + ") " +
-        "blur(" + blur.value + "px) " +
-        "hue-rotate(" + hueRotate.value + "deg) " +
-        "invert(" + invert.value + "%) " +
-        "opacity(" + opacity.value + "%) " +
-        "drop-shadow(0 0 " + dropShadow.value + "px rgba(0, 0, 0, 0.8))";
-
-
-    // Clear Canvas
 
     context.clearRect(
         0,
@@ -322,21 +414,273 @@ function applyFilters() {
         canvas.height
     );
 
-
-    // Draw image with filters
-
     context.drawImage(
-        img,
+        originalCanvas,
+        0,
+        0
+    );
+
+    let imageData = context.getImageData(
         0,
         0,
         canvas.width,
         canvas.height
     );
 
+    imageData = applyColorFilters(imageData);
+
+    imageData = applyBlur(imageData, blur.value);
+
+    applyDropShadow(imageData, dropShadow.value);
+
+    // context.putImageData(
+    //     imageData,
+    //     0,
+    //     0
+    // );
+
 }
 
+function applyColorFilters(imageData) {
 
+    let data = imageData.data;
 
+    let saturation = Number(saturate.value) / 100;
+    let contrastValue = Number(contrast.value) / 100;
+    let brightnessValue = Number(brightness.value) / 100;
+    let sepiaValue = Number(sepia.value) / 100;
+    let grayscaleValue = Number(grayscale.value);
+    let hue = Number(hueRotate.value) * Math.PI / 180;
+    let invertValue = Number(invert.value) / 100;
+    let opacityValue = Number(opacity.value) / 100;
+
+    let cos = Math.cos(hue);
+    let sin = Math.sin(hue);
+
+    for (let i = 0; i < data.length; i += 4) {
+
+        let r = data[i];
+        let g = data[i + 1];
+        let b = data[i + 2];
+
+        let gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+        r = gray + (r - gray) * saturation;
+        g = gray + (g - gray) * saturation;
+        b = gray + (b - gray) * saturation;
+
+        r = (r - 128) * contrastValue + 128;
+        g = (g - 128) * contrastValue + 128;
+        b = (b - 128) * contrastValue + 128;
+
+        r *= brightnessValue;
+        g *= brightnessValue;
+        b *= brightnessValue;
+
+        let sepiaR = r * 0.393 + g * 0.769 + b * 0.189;
+        let sepiaG = r * 0.349 + g * 0.686 + b * 0.168;
+        let sepiaB = r * 0.272 + g * 0.534 + b * 0.131;
+
+        r += (sepiaR - r) * sepiaValue;
+        g += (sepiaG - g) * sepiaValue;
+        b += (sepiaB - b) * sepiaValue;
+
+        gray = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+        r += (gray - r) * grayscaleValue;
+        g += (gray - g) * grayscaleValue;
+        b += (gray - b) * grayscaleValue;
+
+        let hueR =
+            (0.213 + cos * 0.787 - sin * 0.213) * r +
+            (0.715 - cos * 0.715 - sin * 0.715) * g +
+            (0.072 - cos * 0.072 + sin * 0.928) * b;
+
+        let hueG =
+            (0.213 - cos * 0.213 + sin * 0.143) * r +
+            (0.715 + cos * 0.285 + sin * 0.140) * g +
+            (0.072 - cos * 0.072 - sin * 0.283) * b;
+
+        let hueB =
+            (0.213 - cos * 0.213 - sin * 0.787) * r +
+            (0.715 - cos * 0.715 + sin * 0.715) * g +
+            (0.072 + cos * 0.928 + sin * 0.072) * b;
+
+        r = hueR + (255 - 2 * hueR) * invertValue;
+        g = hueG + (255 - 2 * hueG) * invertValue;
+        b = hueB + (255 - 2 * hueB) * invertValue;
+
+        data[i] = Math.max(0, Math.min(255, r));
+        data[i + 1] = Math.max(0, Math.min(255, g));
+        data[i + 2] = Math.max(0, Math.min(255, b));
+        data[i + 3] *= opacityValue;
+
+    }
+
+    return imageData;
+
+}   
+
+function applyBlur(imageData, radius) {
+
+    radius = Math.round(Number(radius));
+
+    if (radius <= 0) {
+        return imageData;
+    }
+
+    let width = imageData.width;
+    let height = imageData.height;
+    let source = imageData.data;
+
+    let horizontal = new Float32Array(source.length);
+    let output = new Uint8ClampedArray(source.length);
+
+    let size = radius * 2 + 1;
+
+    for (let y = 0; y < height; y++) {
+
+        let sums = [0, 0, 0, 0];
+
+        for (let k = -radius; k <= radius; k++) {
+
+            let x = Math.max(0, Math.min(width - 1, k));
+            let index = (y * width + x) * 4;
+
+            for (let c = 0; c < 4; c++) {
+                sums[c] += source[index + c];
+            }
+
+        }
+
+        for (let x = 0; x < width; x++) {
+
+            let index = (y * width + x) * 4;
+
+            for (let c = 0; c < 4; c++) {
+                horizontal[index + c] = sums[c] / size;
+            }
+
+            let removeX = Math.max(0, x - radius);
+            let addX = Math.min(width - 1, x + radius + 1);
+
+            let removeIndex = (y * width + removeX) * 4;
+            let addIndex = (y * width + addX) * 4;
+
+            for (let c = 0; c < 4; c++) {
+                sums[c] += horizontal[0] * 0;
+                sums[c] -= source[removeIndex + c];
+                sums[c] += source[addIndex + c];
+            }
+
+        }
+
+    }
+
+    for (let x = 0; x < width; x++) {
+
+        let sums = [0, 0, 0, 0];
+
+        for (let k = -radius; k <= radius; k++) {
+
+            let y = Math.max(0, Math.min(height - 1, k));
+            let index = (y * width + x) * 4;
+
+            for (let c = 0; c < 4; c++) {
+                sums[c] += horizontal[index + c];
+            }
+
+        }
+
+        for (let y = 0; y < height; y++) {
+
+            let index = (y * width + x) * 4;
+
+            for (let c = 0; c < 4; c++) {
+                output[index + c] = sums[c] / size;
+            }
+
+            let removeY = Math.max(0, y - radius);
+            let addY = Math.min(height - 1, y + radius + 1);
+
+            let removeIndex = (removeY * width + x) * 4;
+            let addIndex = (addY * width + x) * 4;
+
+            for (let c = 0; c < 4; c++) {
+                sums[c] -= horizontal[removeIndex + c];
+                sums[c] += horizontal[addIndex + c];
+            }
+
+        }
+
+    }
+
+    imageData.data.set(output);
+
+    return imageData;
+
+}
+
+function applyDropShadow(imageData, radius) {
+
+    radius = Number(radius);
+
+    if (radius <= 0) {
+
+    context.putImageData(
+        imageData,
+        0,
+        0
+    );
+
+    return;
+
+    }
+
+    tempCanvas.width = imageData.width;
+    tempCanvas.height = imageData.height;
+
+    tempContext.clearRect(
+        0,
+        0,
+        tempCanvas.width,
+        tempCanvas.height
+    );
+
+    tempContext.putImageData(
+        imageData,
+        0,
+        0
+    );
+
+    context.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    context.shadowColor = "rgba(0, 0, 0, 0.8)";
+    context.shadowBlur = radius;
+    context.shadowOffsetX = 0;
+    context.shadowOffsetY = 0;
+
+    context.drawImage(
+        tempCanvas,
+        0,
+        0
+    );
+
+    context.shadowColor = "transparent";
+    context.shadowBlur = 0;
+
+    context.drawImage(
+        tempCanvas,
+        0,
+        0
+    );
+
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
