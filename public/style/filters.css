@@ -1,0 +1,140 @@
+/* ==========================================================
+   Start Filters Styles
+   ========================================================== */
+
+.filters-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+.filters-heading > div > i {
+  color: #f34b91;
+  font-size: 38px;
+}
+
+.filters-heading p {
+  color: #f34b91;
+  margin-bottom: 3px;
+}
+
+.filter-status {
+  flex-shrink: 0;
+
+  padding: 10px 20px;
+
+  background: #351a29;
+
+  border: 1px solid rgba(156, 49, 91, 0.2);
+  border-radius: 30px;
+
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.filters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.filter-item {
+  display: grid;
+
+  grid-template-columns: 28px 120px minmax(70px, 1fr) 68px;
+
+  align-items: center;
+  gap: 12px;
+
+  min-height: 43px;
+}
+
+.filter-icon {
+  color: #e7cbd7;
+  font-size: 19px;
+  text-align: center;
+}
+
+.filter-header {
+  min-width: 0;
+}
+
+.filter-header label {
+  color: var(--text-primary);
+
+  font-size: 14px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+.filter-value {
+  min-width: 65px;
+
+  padding: 7px 8px;
+
+  background: #351d2b;
+
+  border-radius: 12px;
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.filter-item input[type="range"] {
+  width: 100%;
+  height: 7px;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  background: #493440;
+
+  border-radius: 20px;
+
+  outline: none;
+
+  cursor: pointer;
+}
+
+.filter-item input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 18px;
+  height: 18px;
+
+  background: #ec2670;
+
+  border: 2px solid #ff83b1;
+  border-radius: 50%;
+
+  box-shadow: 0 0 0 2px rgba(236, 38, 112, 0.15);
+
+  cursor: pointer;
+
+  transition: var(--transition);
+}
+
+.filter-item input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.filter-item input[type="range"]::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+
+  background: #ec2670;
+
+  border: 2px solid #ff83b1;
+  border-radius: 50%;
+
+  cursor: pointer;
+}

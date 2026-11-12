@@ -1,0 +1,136 @@
+/* ==========================================================
+   Start Responsive Styles
+   ========================================================== */
+
+/* Tablet */
+
+@media screen and (max-width: 1024px) {
+  .image-section {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .image-frame {
+    min-height: 350px;
+  }
+
+  .image-frame canvas {
+    max-height: 500px;
+  }
+
+  .filters-section {
+    padding-top: 30px;
+  }
+
+  .filter-item {
+    grid-template-columns: 30px 150px minmax(100px, 1fr) 75px;
+  }
+}
+
+/* Mobile */
+
+@media screen and (max-width: 640px) {
+  main {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+
+  .page-header h1 {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+
+  .ready-status {
+    font-size: 13px;
+  }
+
+  .editor-container {
+    border-radius: 22px;
+  }
+
+  .image-section,
+  .filters-section {
+    padding: 18px;
+  }
+
+  .image-frame {
+    min-height: 250px;
+    padding: 8px;
+  }
+
+  .image-frame canvas {
+    max-height: 400px;
+  }
+
+  .filters-heading {
+    align-items: flex-start;
+  }
+
+  .filters-heading > div > i {
+    font-size: 28px;
+  }
+
+  .filters-heading h2 {
+    font-size: 21px;
+  }
+
+  .filter-item {
+    grid-template-columns: 25px minmax(0, 1fr) 60px;
+    gap: 9px;
+  }
+
+  .filter-header label {
+    font-size: 13px;
+  }
+
+  .filter-item input[type="range"] {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 2px;
+  }
+
+  .filter-value {
+    grid-column: 3;
+    grid-row: 1 / 3;
+
+    min-width: 58px;
+    font-size: 12px;
+  }
+
+  .filter-icon {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  .filter-item {
+    min-height: 58px;
+  }
+
+  .action-button {
+    min-height: 50px;
+    font-size: 15px;
+  }
+
+  .page-footer {
+    gap: 10px;
+    font-size: 11px;
+  }
+
+  .footer-line {
+    max-width: 35px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .page-header h1 {
+    font-size: 30px;
+  }
+
+  .filters-heading {
+    flex-wrap: wrap;
+  }
+
+  .filter-status {
+    padding: 7px 13px;
+  }
+}

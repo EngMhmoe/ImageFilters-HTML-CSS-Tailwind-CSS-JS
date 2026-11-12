@@ -1,0 +1,655 @@
+
+// ==========================================================
+// Selectors
+// ==========================================================
+
+// Image
+let emptyImage = document.getElementById("emptyImage");
+let boxImg = document.getElementById("box-img");
+let img = document.getElementById("img");
+let uploadInput = document.getElementById("ubLoad");
+
+// Filters
+let saturate = document.getElementById("saturate");
+let contrast = document.getElementById("contrast");
+let brightness = document.getElementById("brightness");
+let sepia = document.getElementById("sepia");
+let grayscale = document.getElementById("grayscale");
+let blur = document.getElementById("blur");
+let hueRotate = document.getElementById("hue-rotate");
+let invert = document.getElementById("invert");
+let opacity = document.getElementById("opacity");
+let dropShadow = document.getElementById("drop-shadow");
+
+// Actions
+let download = document.getElementById("download");
+let reset = document.getElementById("rest");
+
+// Canvas
+let canvas = document.getElementById("canvas");
+let context = canvas.getContext("2d");
+
+let originalCanvas = document.createElement("canvas");
+let originalContext = originalCanvas.getContext("2d");
+
+// Status
+let filterStatus = document.getElementById("filterStatus");
+
+// Filter Values
+let filterValues = [
+    document.getElementById("saturateValue"),
+    document.getElementById("contrastValue"),
+    document.getElementById("brightnessValue"),
+    document.getElementById("sepiaValue"),
+    document.getElementById("grayscaleValue"),
+    document.getElementById("blurValue"),
+    document.getElementById("hueRotateValue"),
+    document.getElementById("invertValue"),
+    document.getElementById("opacityValue"),
+    document.getElementById("dropShadowValue")
+];
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// ==========================================================
+// Initial State
+// ==========================================================
+
+window.onload = function () {
+
+    // Show the empty image message
+    emptyImage.style.display = "flex";
+
+    // Hide Canvas before uploading
+    canvas.style.display = "none";
+
+
+    // Show the image area
+    boxImg.style.display = "flex";
+
+
+    // Disable actions before uploading
+    reset.classList.add("disabled");
+    download.classList.add("disabled");
+
+};
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// ==========================================================
+// Image Loaded
+// ==========================================================
+
+// img.onload = function () {
+
+//     // Set Canvas size equal to image size
+
+//     canvas.width = img.naturalWidth;
+//     canvas.height = img.naturalHeight;
+
+
+//     // Draw original image
+
+//     context.filter = "none";
+
+//     context.drawImage(
+//         img,
+//         0,
+//         0,
+//         canvas.width,
+//         canvas.height
+//     );
+
+
+//     // Hide original image
+
+//     img.style.display = "none";
+
+
+//     // Hide empty image message
+
+//     emptyImage.style.display = "none";
+
+
+//     // Show Canvas
+
+//     canvas.style.display = "block";
+
+// };
+
+
+img.onload = function () {
+
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+
+    originalCanvas.width = img.naturalWidth;
+    originalCanvas.height = img.naturalHeight;
+
+    originalContext.drawImage(
+        img,
+        0,
+        0
+    );
+
+    context.filter = "none";
+
+    context.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    context.drawImage(
+        originalCanvas,
+        0,
+        0
+    );
+
+    img.style.display = "none";
+    emptyImage.style.display = "none";
+    canvas.style.display = "block";
+
+    resetFilters();
+
+};
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// ==========================================================
+// Upload Image
+// ==========================================================
+
+// uploadInput.onchange = function () {
+
+//     // Make sure the user selected an image
+
+//     if (uploadInput.files.length === 0) {
+//         return;
+//     }
+
+
+//     // Get selected file
+
+//     let file = uploadInput.files[0];
+
+
+//     // Create FileReader
+
+//     let reader = new FileReader();
+
+
+//     // Read image file
+
+//     reader.readAsDataURL(file);
+
+
+//     // When image is ready
+
+//     reader.onload = function () {
+
+//         // Set image source
+
+//         img.src = reader.result;
+
+//     };
+
+
+//     // Show image area
+
+//     boxImg.style.display = "flex";
+
+
+//     // Enable actions
+
+//     reset.classList.remove("disabled");
+//     download.classList.remove("disabled");
+
+
+//     // Reset filters
+
+//     resetFilters();
+
+// };
+
+
+uploadInput.onchange = function () {
+
+    if (uploadInput.files.length === 0) {
+        return;
+    }
+
+    let file = uploadInput.files[0];
+
+    if (!file.type.startsWith("image/")) {
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function () {
+        img.src = reader.result;
+    };
+
+    reader.readAsDataURL(file);
+
+    boxImg.style.display = "flex";
+
+    reset.classList.remove("disabled");
+    download.classList.remove("disabled");
+
+};
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+// ==========================================================
+// Filters
+// ==========================================================
+
+let filters = [
+    saturate,
+    contrast,
+    brightness,
+    sepia,
+    grayscale,
+    blur,
+    hueRotate,
+    invert,
+    opacity,
+    dropShadow
+];
+
+let filterFrame = null;
+
+function scheduleApplyFilters() {
+
+    if (filterFrame !== null) {
+        return;
+    }
+
+    filterFrame = requestAnimationFrame(function () {
+
+        applyFilters();
+
+        filterFrame = null;
+
+    });
+
+}
+
+filters.forEach(function (filter) {
+
+    filter.addEventListener("input", function () {
+
+        scheduleApplyFilters();
+
+        updateFilterValues();
+
+        filterStatus.textContent = "Editing";
+
+    });
+
+});
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// ==========================================================
+// Apply Filters
+// ==========================================================
+
+
+function applyFilters() {
+
+    context.save();
+
+    context.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    let filterStyles = [
+        `saturate(${saturate.value}%)`,
+        `contrast(${contrast.value}%)`,
+        `brightness(${brightness.value}%)`,
+        `sepia(${sepia.value}%)`,
+        `grayscale(${grayscale.value})`,
+        `blur(${blur.value}px)`,
+        `hue-rotate(${hueRotate.value}deg)`,
+        `invert(${invert.value}%)`,
+        `opacity(${opacity.value}%)`,
+        `drop-shadow(0 0 ${dropShadow.value}px rgba(0, 0, 0, 0.8))`
+    ];
+
+    context.filter = filterStyles.join(" ");
+
+    context.drawImage(
+        originalCanvas,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    context.restore();
+
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// ==========================================================
+// Update Filter Values
+// ==========================================================
+
+// function updateFilterValues() {
+
+//     saturateValue.textContent =
+//         saturate.value + "%";
+
+
+//     contrastValue.textContent =
+//         contrast.value + "%";
+
+
+//     brightnessValue.textContent =
+//         brightness.value + "%";
+
+
+//     sepiaValue.textContent =
+//         sepia.value + "%";
+
+
+//     grayscaleValue.textContent =
+//         Math.round(grayscale.value * 100) + "%";
+
+
+//     blurValue.textContent =
+//         blur.value + "px";
+
+
+//     hueRotateValue.textContent =
+//         hueRotate.value + "°";
+
+
+//     invertValue.textContent =
+//         invert.value + "%";
+
+
+//     opacityValue.textContent =
+//         opacity.value + "%";
+
+
+//     dropShadowValue.textContent =
+//         dropShadow.value + "px";
+
+// }
+
+function updateFilterValues() {
+
+    let values = [
+        saturate.value + "%",
+        contrast.value + "%",
+        brightness.value + "%",
+        sepia.value + "%",
+        Math.round(grayscale.value * 100) + "%",
+        blur.value + "px",
+        hueRotate.value + "°",
+        invert.value + "%",
+        opacity.value + "%",
+        dropShadow.value + "px"
+    ];
+
+    filterValues.forEach(function (filter, index) {
+
+        filter.textContent = values[index];
+
+    });
+
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// ==========================================================
+// Default Filter Values
+// ==========================================================
+
+// function defaultFilterValues() {
+
+//     saturate.value = "100";
+
+//     contrast.value = "100";
+
+//     brightness.value = "100";
+
+//     sepia.value = "0";
+
+//     grayscale.value = "0";
+
+//     blur.value = "0";
+
+//     hueRotate.value = "0";
+
+//     invert.value = "0";
+
+//     opacity.value = "100";
+
+//     dropShadow.value = "0";
+
+// }
+
+function defaultFilterValues() {
+
+    let defaultValues = [
+        "100",
+        "100",
+        "100",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "100",
+        "0"
+    ];
+
+    filters.forEach(function (filter, index) {
+
+        filter.value = defaultValues[index];
+
+    });
+
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// ==========================================================
+// Reset Filters
+// ==========================================================
+
+function resetFilters() {
+
+    defaultFilterValues();
+
+    context.filter = "none";
+
+    if (img.complete && img.src) {
+
+        context.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        context.drawImage(
+            originalCanvas,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+    }
+
+    updateFilterValues();
+
+    filterStatus.textContent = "Original";
+
+}
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// ==========================================================
+// Reset Button
+// ==========================================================
+
+reset.onclick = function () {
+
+    if (reset.classList.contains("disabled")) {
+        return;
+    }
+
+    resetFilters();
+
+};
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// ==========================================================
+// Download Image
+// ==========================================================
+
+download.onclick = function () {
+
+   if (download.classList.contains("disabled")) {
+      return;
+   }
+
+   download.href = canvas.toDataURL("image/png");
+
+   download.download = "Edited-Image.png";
+
+};

@@ -1,0 +1,32 @@
+/* ==========================================================
+  Start CSS Variables
+  ========================================================== */
+
+:root {
+  --primary-color: #ec2670;
+  --primary-hover: #d4145a;
+  --primary-light: #8e1746;
+  --primary-soft: #401226;
+
+  --success-color: #13b86b;
+
+  --body-bg: #10050b;
+  --container-bg: #190b13;
+  --surface-bg: #26121d;
+  --surface-hover: #351827;
+
+  --text-primary: #fff1f5;
+  --text-secondary: #d9c4ce;
+  --text-muted: #a58b96;
+
+  --border-color: #782044;
+  --border-light: #9c315b;
+
+  --shadow-small: 0 5px 20px rgba(0, 0, 0, 0.25);
+  --shadow-medium: 0 15px 45px rgba(0, 0, 0, 0.35);
+
+  --radius-medium: 16px;
+  --radius-large: 25px;
+
+  --transition: 0.3s ease;
+}

@@ -1,0 +1,72 @@
+/* ==========================================================
+   Start Action Buttons Styles
+   ========================================================== */
+
+.actions-container {
+  border-top: 1px solid rgba(120, 32, 68, 0.55);
+}
+
+.action-button {
+  min-height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 12px 18px;
+
+  border-radius: 40px;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: var(--transition);
+}
+
+.action-button i {
+  font-size: 21px;
+}
+
+.download-button {
+  background: linear-gradient(110deg, #20c879, #05a94f);
+
+  color: white;
+
+  border: 1px solid #20c879;
+}
+
+.download-button:hover {
+  background: #0da85b;
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 8px 20px rgba(32, 200, 121, 0.2);
+}
+
+.reset-button {
+  background: transparent;
+
+  color: white;
+
+  border: 2px solid #e51d69;
+}
+
+.reset-button:hover {
+  background: rgba(229, 29, 105, 0.13);
+
+  transform: translateY(-3px);
+}
+
+.action-button.disabled {
+  opacity: 0.4;
+
+  pointer-events: none;
+
+  cursor: not-allowed;
+}

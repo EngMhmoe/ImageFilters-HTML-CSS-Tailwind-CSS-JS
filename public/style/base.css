@@ -1,0 +1,87 @@
+/* ==========================================================
+  Start Base Styles
+  ========================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 0% 0%,
+      rgba(236, 38, 112, 0.23),
+      transparent 32%
+    ),
+    radial-gradient(
+      ellipse at 100% 100%,
+      rgba(236, 38, 112, 0.18),
+      transparent 30%
+    ),
+    var(--body-bg);
+
+  color: var(--text-primary);
+
+  font-family: "Inter", Arial, sans-serif;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+
+  width: 350px;
+  height: 160px;
+
+  background: linear-gradient(135deg, #f42d78, #9d0c4b);
+
+  filter: blur(1px);
+  opacity: 0.85;
+
+  pointer-events: none;
+}
+
+body::before {
+  top: -75px;
+  left: -110px;
+
+  border-radius: 0 0 100% 0;
+
+  transform: rotate(-15deg);
+}
+
+body::after {
+  right: -110px;
+  bottom: -75px;
+
+  border-radius: 100% 0 0 0;
+
+  transform: rotate(-15deg);
+}
+
+::selection {
+  background: var(--primary-color);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-soft);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
+}

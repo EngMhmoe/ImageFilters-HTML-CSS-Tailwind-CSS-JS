@@ -1,0 +1,47 @@
+/* ==========================================================
+   Start Layout Styles
+   ========================================================== */
+
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.editor-container {
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    rgba(39, 13, 27, 0.98),
+    rgba(20, 8, 15, 0.98)
+  );
+
+  border: 1px solid var(--border-color);
+  border-radius: 35px;
+
+  box-shadow: var(--shadow-medium);
+}
+
+.page-footer {
+  color: var(--text-primary);
+  font-size: 14px;
+  text-align: center;
+}
+
+.page-footer p {
+  flex-shrink: 0;
+}
+
+.page-footer i {
+  margin-left: 12px;
+
+  color: #e51d69;
+}
+
+.footer-line {
+  width: 100%;
+  max-width: 250px;
+  height: 1px;
+
+  background: linear-gradient(90deg, transparent, #a91651);
+}
